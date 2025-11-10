@@ -2,12 +2,13 @@ package com.example.studyplatformspring.service;
 
 
 import com.example.studyplatformspring.entity.Task;
+import com.example.studyplatformspring.entity.TaskStatus;
 import com.example.studyplatformspring.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
-import com.example.studyplatformspring.entity.TaskStatus;
 
 
 @Service
@@ -37,7 +38,7 @@ public class TaskService {
     }
 
     public List<Task> getTasksByTopic(Long topicId) {
-        return taskRepository.findByTopicId(topicId);
+        return taskRepository.findByTopic_Id(topicId);
     }
 
     public List<Task> searchTasks(String keyword) {
@@ -45,7 +46,7 @@ public class TaskService {
     }
 
     public List<Task> getTasksByTopicAndStatus(Long topicId, TaskStatus status) {
-        return taskRepository.findByTopicIdAndCompletionStatus(topicId, status);
+        return taskRepository.findByTopic_IdAndCompletionStatus(topicId, status);
     }
 
     public Task updateTaskStatus(Long id, TaskStatus newStatus) {

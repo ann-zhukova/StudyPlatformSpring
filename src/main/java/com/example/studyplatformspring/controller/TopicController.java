@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -20,7 +19,7 @@ public class TopicController {
     public String listTopics(Model model, @RequestParam(required = false) String search) {
         List<Topic> topics;
         if (search != null && !search.trim().isEmpty()) {
-            topics = topicService.getAllTopics();
+            topics = topicService.searchTopics(search);
             model.addAttribute("search", search);
         } else {
             topics = topicService.getAllTopics();

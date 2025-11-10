@@ -1,9 +1,16 @@
 package com.example.studyplatformspring.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tasks")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JacksonXmlRootElement(localName = "task")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +28,7 @@ public class Task {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id")
+    @JsonBackReference("topic-tasks")
     private Topic topic;
 
     public Task() {}
@@ -48,4 +56,11 @@ public class Task {
 
     public Topic getTopic() { return topic; }
     public void setTopic(Topic topic) { this.topic = topic; }
+
+    @Transient
+    @JsonProperty("topicId")
+    @JacksonXmlProperty(localName = "topicId")
+    public Long getTopicId() {
+        return topic != null ? topic.getId() : null;
+    }
 }

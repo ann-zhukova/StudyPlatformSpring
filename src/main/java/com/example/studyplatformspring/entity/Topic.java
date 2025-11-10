@@ -1,11 +1,19 @@
 package com.example.studyplatformspring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "topic")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JacksonXmlRootElement(localName = "topic")
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +29,9 @@ public class Topic {
     private int estimatedHours;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("topic-tasks")
+    @JacksonXmlElementWrapper(localName = "tasks")
+    @JacksonXmlProperty(localName = "task")
     private List<Task> tasks = new ArrayList<>();
 
     // Конструкторы

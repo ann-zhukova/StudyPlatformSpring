@@ -28,4 +28,8 @@ public class TopicService {
     public void deleteTopic(Long id) {
         topicRepository.deleteById(id);
     }
+
+    public List<Topic> searchTopics(String keyword) {
+        return topicRepository.searchByKeyword(keyword);
+    }
 }
