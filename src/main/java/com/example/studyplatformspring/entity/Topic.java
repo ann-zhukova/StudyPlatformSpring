@@ -32,7 +32,7 @@ public class Topic {
     @JsonManagedReference("topic-tasks")
     @JacksonXmlElementWrapper(localName = "tasks")
     @JacksonXmlProperty(localName = "task")
-    private List<Task> tasks = new ArrayList<>();
+    private List<Task> tasks;
 
     // Конструкторы
     public Topic() {}
