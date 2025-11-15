@@ -10,14 +10,16 @@
 - Maven (Spring Boot Maven Plugin)
 - Spring Boot 3.5.6
 - Spring Web (Spring MVC)
+- Spring REST
 - Spring Data JPA (Hibernate как провайдер)
+- Fasterxml jackson для форматирования
 - Spring Boot Starter Thymeleaf
 - База данных: PostgreSQL (JDBC‑драйвер 42.7.7)
 - Фронт: Thymeleaf + Bootstrap 5.1.3 + Bootstrap Icons 1.8.1 (CDN)
 
 ## Сравнение JAX-RS и Spring REST
-- JAX-RS — стандарт Jakarta EE для REST; реализация зависит от контейнера (Jersey, RESTEasy и т.п.).
-- Spring REST — часть Spring MVC, глубоко интегрирована со Spring Boot и всей экосистемой Spring.
+- JAX-RS - стандарт Jakarta EE для REST; реализация зависит от контейнера (Jersey, RESTEasy и т.п.).
+- Spring REST - часть Spring MVC, глубоко интегрирована со Spring Boot и всей экосистемой Spring.
 - Spring Boot даёт автонастройку: быстрее старт и меньше кода.
 - JAX-RS обычно требует явной конфигурации и больше ручной сборки.
 
