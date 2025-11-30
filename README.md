@@ -22,7 +22,7 @@
 ## Отправка писем о завершении задач
 Локально отправка идет с помощью Mail Hog при переходе задачи в статус "Complited". 
 Письма доступны по адресу `http://localhost:8025/`
-![img.png](img.png)
+<img alt="img.png" src="img.png"/>
 
 ## Реализация REST API с JSON и XML
 
