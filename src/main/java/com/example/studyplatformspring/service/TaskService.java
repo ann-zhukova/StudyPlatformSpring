@@ -4,6 +4,7 @@ package com.example.studyplatformspring.service;
 import com.example.studyplatformspring.entity.Task;
 import com.example.studyplatformspring.entity.TaskStatus;
 import com.example.studyplatformspring.repository.TaskRepository;
+import com.example.studyplatformspring.messaging.EntityChangePublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Autowired
+    private EntityChangePublisher entityChangePublisher;
+
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
@@ -26,11 +30,21 @@ public class TaskService {
     }
 
     public Task saveTask(Task task) {
-        return taskRepository.save(task);
+        boolean isNew = task.getId() == null;
+        Task saved = taskRepository.save(task);
+        String changeType = isNew ? "INSERT" : "UPDATE";
+        String details = buildTaskDetails(saved);
+        entityChangePublisher.publishTaskChange(changeType, saved, details);
+        return saved;
     }
 
     public void deleteTask(Long id) {
+        Optional<Task> existing = taskRepository.findById(id);
         taskRepository.deleteById(id);
+        existing.ifPresent(task -> {
+            String details = buildTaskDetails(task);
+            entityChangePublisher.publishTaskChange("DELETE", task, details);
+        });
     }
 
     public List<Task> getTasksByStatus(TaskStatus status) {
@@ -54,7 +68,7 @@ public class TaskService {
         if (taskOpt.isPresent()) {
             Task task = taskOpt.get();
             task.setCompletionStatus(newStatus);
-            return taskRepository.save(task);
+            return saveTask(task);
         }
         return null;
     }
@@ -66,7 +80,7 @@ public class TaskService {
             TaskStatus currentStatus = task.getCompletionStatus();
             TaskStatus nextStatus = getNextStatus(currentStatus);
             task.setCompletionStatus(nextStatus);
-            return taskRepository.save(task);
+            return saveTask(task);
         }
         return null;
     }
@@ -81,5 +95,13 @@ public class TaskService {
 
     public long getTaskCountByStatus(TaskStatus status) {
         return taskRepository.countByCompletionStatus(status);
+    }
+
+    private String buildTaskDetails(Task task) {
+        Long topicId = task.getTopic() != null ? task.getTopic().getId() : null;
+        return "title=" + task.getTitle()
+                + ", description=" + task.getDescription()
+                + ", status=" + task.getCompletionStatus()
+                + ", topicId=" + topicId;
     }
 }
