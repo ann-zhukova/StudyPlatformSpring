@@ -12,18 +12,17 @@
 - Spring Web (Spring MVC)
 - Spring REST
 - Spring Data JPA (Hibernate как провайдер)
+- Spring JMS
+- ActiveMQ Artemis Embedded broker
 - Fasterxml jackson для форматирования
 - Spring Boot Starter Thymeleaf
 - База данных: PostgreSQL (JDBC‑драйвер 42.7.7)
 - Фронт: Thymeleaf + Bootstrap 5.1.3 + Bootstrap Icons 1.8.1 (CDN)
 
-## Сравнение JAX-RS и Spring REST
-- JAX-RS - стандарт Jakarta EE для REST; реализация зависит от контейнера (Jersey, RESTEasy и т.п.).
-- Spring REST - часть Spring MVC, глубоко интегрирована со Spring Boot и всей экосистемой Spring.
-- Spring Boot даёт автонастройку: быстрее старт и меньше кода.
-- JAX-RS обычно требует явной конфигурации и больше ручной сборки.
-
-Выбор: Spring REST быстрая реализация JSON/XML и простая интеграция XSLT через кастомный XML‑конвертер.
+## Отправка писем о завершении задач
+Локально отправка идет с помощью Mail Hog при переходе задачи в статус "Complited". 
+Письма доступны по адресу `http://localhost:8025/`
+![img.png](img.png)
 
 ## Реализация REST API с JSON и XML
 
